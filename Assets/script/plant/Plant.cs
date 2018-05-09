@@ -66,7 +66,7 @@ public class Plant : MonoBehaviour {
          else collider_name = collider.transform.name.Substring(0, collider.transform.name.IndexOf("Clone")-1);
 
         if (collider.tag == "Item") {
-            Debug.Log("[collider_name] :" + collider_name);
+            // Debug.Log("[collider_name] :" + collider_name);
             switch(collider_name) {
                 case "item_enhancement":
                     if (plant_fire.bullet_type < 2)

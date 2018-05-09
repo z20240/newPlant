@@ -7,7 +7,7 @@ public class GameSetting : MonoBehaviour {
 	// Use this for initialization
     public int g_Stage = 1;
     string[] player_name = {"plant_1", "plant_2"};
-    private float[] boss_time = {10f, 10f, 10f};
+    private float[] boss_time = {60f, 60f, 60f};
 
     private List<Item> item_list = new List<Item>();
 
@@ -53,7 +53,7 @@ public class GameSetting : MonoBehaviour {
     void Start () {
         now_boss_time = boss_time[0];
         item_list.Add(new Item("item_enhancement", 10f));
-        item_list.Add(new Item("item_extra_skill", 100f));
+        item_list.Add(new Item("item_extra_skill", 40f));
         item_list.Add(new Item("item_heal_pack", 50f));
         item_list.Add(new Item("item_rewards", 30f)); // 這其實是防護罩
 

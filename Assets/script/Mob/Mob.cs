@@ -26,6 +26,8 @@ public class Mob : MonoBehaviour {
         need_scale_up.Add("mob_poison_bear_attack");
         need_scale_up.Add("mob_poison_suger_bar_attack");
         need_scale_up.Add("mob_poison_soft_suger_attack");
+
+        _next_time = shooting_time;
     }
 
 	// Use this for initialization
@@ -36,7 +38,7 @@ public class Mob : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         _timer += Time.deltaTime; //時間增加
-        if ( _timer <= _next_time)
+        if ( _timer <= _next_time )
             return;
         _next_time = _timer + shooting_time;
 
@@ -52,7 +54,7 @@ public class Mob : MonoBehaviour {
 
         Quaternion quate = Quaternion.identity;
         if ( player == null ) {
-            dir = Vector3.down;
+            dir = Vector3.down * 2;
             quate.eulerAngles = new Vector3(0, 0, 0); // 表示設置x軸方向旋轉了 tiltAngle 度
         } else {
             dir =  player.transform.position - gameObject.transform.position;

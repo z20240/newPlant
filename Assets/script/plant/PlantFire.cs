@@ -57,7 +57,9 @@ public class PlantFire : MonoBehaviour {
             }
         }
 
-        if ( (Input.GetKey(KeyCode.Space) && gameObject.name == "plant_1") || (Input.GetKey(KeyCode.LeftShift) && gameObject.name == "plant_2")) {
+        if ( ( (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button1)) && gameObject.name == "plant_1") 
+            || ( (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Joystick2Button1) ) && gameObject.name == "plant_2") 
+        ) {
             if ( gameObject.GetComponent<Plant>().Extra_skill_count <= 0 )
                 return;
 
