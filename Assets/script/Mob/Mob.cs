@@ -84,7 +84,7 @@ public class Mob : MonoBehaviour {
             string item = RandomItem();
 
             if (item != "")
-                pool.ReUse(item, gameObject.transform.position + new Vector3(UnityEngine.Random.Range(0.2f, -0.2f), 0, 0), gameObject.transform.rotation);
+                pool.ReUse(item, gameObject.transform.position + new Vector3(UnityEngine.Random.Range(0.6f, -0.6f), 0, 0), gameObject.transform.rotation);
 
             pool.Recovery(pool_name, gameObject);
         }

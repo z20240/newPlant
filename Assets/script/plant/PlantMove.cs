@@ -7,7 +7,7 @@ public class PlantMove : MonoBehaviour {
     /**
      * setting
      */
-     private float plane_speed = 0.15f;
+     private float plane_speed = 0.1f;
 
     /*
      * private setting
@@ -219,37 +219,44 @@ public class PlantMove : MonoBehaviour {
         if ( gameObject.name == "plant_1" ) {
             if ( Input.GetKey(KeyCode.RightArrow) ) {
                 gameObject.transform.position += new Vector3(plane_speed,0,0);
-            } else if ( Input.GetKey(KeyCode.LeftArrow) ) {
+            }
+            if ( Input.GetKey(KeyCode.LeftArrow) ) {
                 gameObject.transform.position += new Vector3(-plane_speed,0,0);
-            } else if ( Input.GetKey(KeyCode.UpArrow) ) {
+            }
+            if ( Input.GetKey(KeyCode.UpArrow) ) {
                 gameObject.transform.position += new Vector3(0,plane_speed,0);
-            } else if ( Input.GetKey(KeyCode.DownArrow) ) {
+            }
+            if ( Input.GetKey(KeyCode.DownArrow) ) {
                 gameObject.transform.position += new Vector3(0,-plane_speed,0);
             }
-             else if ((value = Input.GetAxis ("Horizontal_player1")) != 0) {
+
+            if ((value = Input.GetAxis ("Horizontal_player1")) != 0) {
                 if (value > 0) gameObject.transform.position += new Vector3(plane_speed,0,0);
                 else gameObject.transform.position += new Vector3(-plane_speed,0,0);
-                Debug.Log("test Horizontal" + Input.GetAxis ("Horizontal_player1"));
-            } else if ((value = Input.GetAxis ("Vertical_player1")) != 0) {
+            }
+            if ((value = Input.GetAxis ("Vertical_player1")) != 0) {
                 if (value > 0) gameObject.transform.position += new Vector3(0,plane_speed,0);
                 else gameObject.transform.position += new Vector3(0,-plane_speed,0);
-                Debug.Log("test Vertical" + Input.GetAxis ("Vertical_player1"));
             }
         } else if ( gameObject.name == "plant_2" ) {
             if ( Input.GetKey(KeyCode.D) ) {
             gameObject.transform.position += new Vector3(plane_speed,0,0);
-            } else if ( Input.GetKey(KeyCode.A) ) {
+            }
+            if ( Input.GetKey(KeyCode.A) ) {
                 gameObject.transform.position += new Vector3(-plane_speed,0,0);
-            } else if ( Input.GetKey(KeyCode.W) ) {
+            }
+            if ( Input.GetKey(KeyCode.W) ) {
                 gameObject.transform.position += new Vector3(0,plane_speed,0);
-            } else if ( Input.GetKey(KeyCode.S) ) {
+            }
+            if ( Input.GetKey(KeyCode.S) ) {
                 gameObject.transform.position += new Vector3(0,-plane_speed,0);
             }
 
-            else if ((value = Input.GetAxis ("Horizontal_player2")) != 0) {
+            if ((value = Input.GetAxis ("Horizontal_player2")) != 0) {
                 if (value > 0) gameObject.transform.position += new Vector3(plane_speed,0,0);
                 else gameObject.transform.position += new Vector3(-plane_speed,0,0);
-            } else if ((value = Input.GetAxis ("Vertical_player2")) != 0) {
+            }
+            if ((value = Input.GetAxis ("Vertical_player2")) != 0) {
                 if (value > 0) gameObject.transform.position += new Vector3(0,plane_speed,0);
                 else gameObject.transform.position += new Vector3(0,-plane_speed,0);
             }

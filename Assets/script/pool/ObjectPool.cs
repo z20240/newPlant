@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 class ObjPool {
 
@@ -118,7 +119,6 @@ public class ObjectPool : MonoBehaviour {
         InitPool(dict["item_rewards"], item_rewards, 21);
 
         InitPool(dict["explosion"], explosion, 21);
-
     }
 
     public GameObject ReUse(string pool_name, Vector3 position, Quaternion rotation, int degree = 90) {

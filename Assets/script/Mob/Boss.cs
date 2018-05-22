@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour {
     // == setting
-    private float[] shooting_time = { 0.2f, 0.5f, 0.5f };
+    private float[] shooting_time = { 0.2f, 0.5f, 0.3f };
     private float[] shooting_force = { 1f, 1f, 1f };
     private int[] hp_setting = { 20, 100, 500 };
 
@@ -93,7 +93,7 @@ public class Boss : MonoBehaviour {
 
                 break;
             case "boss2_amphetamines":
-                //旋转改变的角度
+                //旋轉改變的角度
                 // changeAngle = 360 / bulletAmount;
 
                 bounds = gameObject.GetComponent<SpriteRenderer> ().bounds;
@@ -119,35 +119,34 @@ public class Boss : MonoBehaviour {
                 break;
             case "boss3_heroin":
                 r = 0.3f;
-                changeAngle = 15;
+                changeAngle = 10;
                 bounds = gameObject.GetComponent<SpriteRenderer>().bounds;
                 center = gameObject.transform.position;
-
-                bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position, gameObject.transform.rotation);
 
                 hudu = (angle / 180) * Mathf.PI;
 
                 xx = center.x + ( r + bounds.extents.x ) * Mathf.Cos (hudu);
                 yy = center.y + ( r + bounds.extents.y ) * Mathf.Sin (hudu);
-                bulletClone.transform.position = new Vector3 (xx, yy, 0);
 
-                dir = bulletClone.transform.position - gameObject.transform.position;
                 quate.eulerAngles = new Vector3 (0, 0, Vector3.Angle (Vector3.down, dir)); // 表示設置x軸方向旋轉了 tiltAngle 度
+                bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position, gameObject.transform.rotation);
+                bulletClone.transform.position = new Vector3 (xx, yy, 0);
                 bulletClone.transform.rotation = quate;
+                dir = bulletClone.transform.position - gameObject.transform.position;
+                bulletClone.GetComponent<MobBulletMove> ().Dir = dir;
+                bulletClone.GetComponent<MobBulletMove> ().Force = shooting_force[game_setting.G_Stage -1];
+
+                bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position, gameObject.transform.rotation);
+                bulletClone.transform.position = new Vector3 (yy, xx, 0);
+                quate.eulerAngles = new Vector3 (0, 0, -Vector3.Angle (Vector3.down, dir)); // 表示設置x軸方向旋轉了 tiltAngle 度
+                bulletClone.transform.rotation = quate;
+                dir = gameObject.transform.position - bulletClone.transform.position;
                 bulletClone.GetComponent<MobBulletMove> ().Dir = dir;
                 bulletClone.GetComponent<MobBulletMove> ().Force = shooting_force[game_setting.G_Stage -1];
 
                 angle += changeAngle;
 
-
-                bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position + new Vector3 (2.3f, -1.5f, 0), quate);
-                bulletClone.GetComponent<MobBulletMove> ().Dir = Vector3.down;
-                bulletClone.GetComponent<MobBulletMove> ().Force = shooting_force[game_setting.G_Stage -1];
-                bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position + new Vector3 (-2.3f, -1.5f, 0), quate);
-                bulletClone.GetComponent<MobBulletMove> ().Dir = Vector3.down;
-                bulletClone.GetComponent<MobBulletMove> ().Force = shooting_force[game_setting.G_Stage -1];
-
-
+                // 追蹤彈
                 player = GameObject.Find(game_setting.Player_name[Random.Range(0, 2)]);
                 if (player == null) {
                     dir = Vector3.down;
@@ -169,7 +168,6 @@ public class Boss : MonoBehaviour {
     void OnTriggerEnter2D (Collider2D collider) {
         string pool_name = BoosPoolName ();
         if (collider.tag == "PlayerBullet" && Can_start_attack) {
-            Debug.Log ("[boss] collider bullet:" + collider.tag + " " + pool_name);
             // pool.Recovery(pool_name, gameObject);
             hp--;
 
@@ -181,7 +179,7 @@ public class Boss : MonoBehaviour {
                 game_setting.IsBossTime = false;
 
                 if (game_setting.G_Stage > 3) {
-                    SceneManager.LoadScene("End");
+                    game_setting.Is_complete = true;
                 } else {
                     game_setting.Now_boss_time = game_setting.Timer + game_setting.Boss_time[game_setting.G_Stage -1];
                 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlantFire : MonoBehaviour {
 
-    public float spawnTime = 0.2f;
+    public float spawnTime = 1f;
     // Use this for initialization
     public int bullet_type;
     GameObject obj_pool;
@@ -26,39 +26,46 @@ public class PlantFire : MonoBehaviour {
     // Update is called once per frame
 
     void Update() {
-        // if ( Time.time > _timer + spawnTime ) {
-        if ( Time.time > _timer + spawnTime ) {
-            _timer = Time.time;
+        _timer += Time.deltaTime;
+        // if ( _timer > spawnTime) {
 
-            switch( bullet_name[bullet_type] ) {
-                case "player_bullet_1":
-                    pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation);
+            if ( ( (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.Joystick1Button1)) && gameObject.name == "plant_1")
+                || ( (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.Joystick2Button1) ) && gameObject.name == "plant_2")
+            ) {
+                if (_timer < spawnTime)
                     return;
-                case "player_bullet_2":
-                    pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation);
-                    return;
-                case "player_bullet_3":
-                    Bounds bounds = gameObject.GetComponent<SpriteRenderer>().bounds;
-                    int tiltAngle = 0;
-                    float r = 1f;
+                switch( bullet_name[bullet_type] ) {
+                    case "player_bullet_1":
+                        pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation);
+                        return;
+                    case "player_bullet_2":
+                        pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation);
+                        return;
+                    case "player_bullet_3":
+                        Bounds bounds = gameObject.GetComponent<SpriteRenderer>().bounds;
+                        int tiltAngle = 0;
+                        float r = 1f;
 
-                    for (int i = 1 ; i <= 11 ; i++ ) {
-                        Quaternion quate = Quaternion.identity;
-                        tiltAngle = i * 15 - 90;
-                        quate.eulerAngles = new Vector3(0, 0, tiltAngle); // 表示設置x軸方向旋轉了 tiltAngle 度
+                        for (int i = 1 ; i <= 11 ; i++ ) {
+                            Quaternion quate = Quaternion.identity;
+                            tiltAngle = i * 15 - 90;
+                            quate.eulerAngles = new Vector3(0, 0, tiltAngle); // 表示設置x軸方向旋轉了 tiltAngle 度
 
-                        float hudu = ((float)(i * 15) / 180) * Mathf.PI;
-                        float xx = transform.position.x + ( r + bounds.extents.x ) * Mathf.Cos (hudu);
-                        float yy = transform.position.y + ( r + bounds.extents.y ) * Mathf.Sin (hudu);
+                            float hudu = ((float)(i * 15) / 180) * Mathf.PI;
+                            float xx = transform.position.x + ( r + bounds.extents.x ) * Mathf.Cos (hudu);
+                            float yy = transform.position.y + ( r + bounds.extents.y ) * Mathf.Sin (hudu);
 
-                        pool.ReUse( bullet_name[bullet_type], new Vector3(xx, yy, 0), quate, i * 15 );
-                    }
-                    return;
+                            pool.ReUse( bullet_name[bullet_type], new Vector3(xx, yy, 0), quate, i * 15 );
+                        }
+                        return;
+                }
+                _timer = 0;
             }
-        }
 
-        if ( ( (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button1)) && gameObject.name == "plant_1") 
-            || ( (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Joystick2Button1) ) && gameObject.name == "plant_2") 
+        // }
+
+        if ( ( (Input.GetKeyUp(KeyCode.RightShift) || Input.GetKeyUp(KeyCode.Joystick1Button3)) && gameObject.name == "plant_1")
+            || ( (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.Joystick2Button3) ) && gameObject.name == "plant_2")
         ) {
             if ( gameObject.GetComponent<Plant>().Extra_skill_count <= 0 )
                 return;

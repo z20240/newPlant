@@ -70,13 +70,15 @@ public class Spawner : MonoBehaviour {
 	void Update () {
         _timer += Time.deltaTime; //時間增加
 
-        if (_timer >= game_setting.Now_boss_time - clear_time && !game_setting.IsBossTime && !bossDefeat[game_setting.G_Stage -1]) {
+        if (_timer >= game_setting.Now_boss_time - clear_time && !game_setting.IsBossTime && !bossDefeat[(game_setting.G_Stage -1) % game_setting.MaxStage]) {
 
             // Debug.Log("gameObject name : " + gameObject.name);
             if (gameObject.name != "spawner_top")
                 return;
 
             // 召喚 boss
+            if (game_setting.G_Stage > 3)
+                return;
             pool.ReUse( boss_list[game_setting.G_Stage - 1], transform.position + new Vector3(0, +2.5f, 0), transform.rotation);
             game_setting.IsBossTime = true;
         }

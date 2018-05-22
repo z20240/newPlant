@@ -36,8 +36,8 @@ public class Plant : MonoBehaviour {
     GameObject GameSetting;
     private GameSetting game_setting;
 
-    // Use this for initialization
-    void Start () {
+
+    void Awake() {
         GameSetting = GameObject.Find ("GameSetting");
         game_setting = GameSetting.GetComponent<GameSetting> ();
 
@@ -45,7 +45,10 @@ public class Plant : MonoBehaviour {
         pool = obj_pool.GetComponent<ObjectPool>(); // 物件池
 
         hp = base_hp;
+    }
 
+    // Use this for initialization
+    void Start () {
         plant_fire = gameObject.GetComponent<PlantFire>();
 
         _timer = _next = 0;
@@ -61,6 +64,7 @@ public class Plant : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collider) {
         string collider_name;
+        GameObject go;
         if (collider.transform.name.IndexOf("Clone") == -1)
             collider_name = collider.transform.name;
          else collider_name = collider.transform.name.Substring(0, collider.transform.name.IndexOf("Clone")-1);
@@ -69,14 +73,18 @@ public class Plant : MonoBehaviour {
             // Debug.Log("[collider_name] :" + collider_name);
             switch(collider_name) {
                 case "item_enhancement":
-                    if (plant_fire.bullet_type < 2)
+                    if (plant_fire.bullet_type < 2) {
                         plant_fire.bullet_type += 1;
-                    Debug.Log("[item_enhancement] bullet_type : " + plant_fire.bullet_type);
+                        go = GameObject.Find("換攻擊");
+                        go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
+                    }
                 break;
                 case "item_extra_skill":
                     if (extra_skill_count <= 4) {
                         extra_skill_count += 1;
                         GameObject.Find("UICanvas").GetComponent<UICtrl>().addEnergy();
+                        go = GameObject.Find("炸彈包");
+                        go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
                     }
 
                 break;
@@ -84,13 +92,16 @@ public class Plant : MonoBehaviour {
                     if (hp < 5) {
                         hp += 1;
                         GameObject.Find("UICanvas").GetComponent<UICtrl>().addHeart();
+                        go = GameObject.Find("救護包");
+                        go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
                     }
                 break;
                 case "item_rewards":
                     shieldOn = true;
                     _next = System.Math.Max(_next, _timer) + shield_time;
                     gameObject.transform.GetChild(0).gameObject.SetActive(true);
-                    Debug.Log("[item_rewards] _timer : " + _timer + ", _next : " + _next);
+                    go = GameObject.Find("勳章");
+                    go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
                 break;
             }
         } else if (collider.tag == "MobBullet" || collider.tag == "Mob" || collider.tag == "Boss") {
@@ -106,8 +117,9 @@ public class Plant : MonoBehaviour {
 
                 PlayerPrefs.SetInt("player_num", PlayerPrefs.GetInt("player_num") -1);
 
-                if (PlayerPrefs.GetInt("player_num") <= 0)
+                if (PlayerPrefs.GetInt("player_num") <= 0) {
                     SceneManager.LoadScene("End");
+                }
             }
         }
     }
