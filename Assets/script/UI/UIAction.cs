@@ -10,6 +10,7 @@ public class UIAction : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         cg = gameObject.GetComponent<CanvasGroup>();
+        Screen.SetResolution(1920, 1080, true);
 	}
 
 	// Update is called once per frame

@@ -20,6 +20,8 @@ public class GameSetting : MonoBehaviour {
     private bool is_complete = false;
     private float waiting_scence_time = 0;
 
+    GameObject ui_btnSet;
+
     public int G_Stage {
         get { return g_Stage; }
         set { g_Stage = value; }
@@ -65,6 +67,7 @@ public class GameSetting : MonoBehaviour {
     }
 
     void Start () {
+        Screen.SetResolution(1920, 1080, true);
         now_boss_time = boss_time[0];
         item_list.Add(new Item("item_enhancement", 10f));
         item_list.Add(new Item("item_extra_skill", 40f));
@@ -82,7 +85,7 @@ public class GameSetting : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Escape)) {
             Pause();
-            GameObject ui_btnSet = GameObject.Find("UICanvas").transform.GetChild(0).gameObject;
+            ui_btnSet = GameObject.Find("UICanvas").transform.GetChild(0).gameObject;
             ui_btnSet.SetActive(true);
         }
 
@@ -102,5 +105,6 @@ public class GameSetting : MonoBehaviour {
     public void Continue() {
         //時間以正常速度運行
         Time.timeScale = 1f;
+        ui_btnSet.SetActive(true);
     }
 }
