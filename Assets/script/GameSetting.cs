@@ -77,6 +77,8 @@ public class GameSetting : MonoBehaviour {
 
         if (PlayerPrefs.GetInt("player_num") == 1)
             GameObject.Find("plant_2").SetActive(false);
+
+        ui_btnSet = GameObject.Find("UICanvas").transform.GetChild(0).gameObject;
 	}
 
 	// Update is called once per frame
@@ -85,8 +87,6 @@ public class GameSetting : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Escape)) {
             Pause();
-            ui_btnSet = GameObject.Find("UICanvas").transform.GetChild(0).gameObject;
-            ui_btnSet.SetActive(true);
         }
 
         if (Is_complete) {
@@ -100,11 +100,12 @@ public class GameSetting : MonoBehaviour {
     public void Pause() {
         //時間暫停
         Time.timeScale = 0f;
+        ui_btnSet.SetActive(true);
     }
 
     public void Continue() {
         //時間以正常速度運行
         Time.timeScale = 1f;
-        ui_btnSet.SetActive(true);
+        ui_btnSet.SetActive(false);
     }
 }

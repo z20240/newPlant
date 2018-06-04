@@ -6,6 +6,7 @@ using UnityEngine;
 public class UICtrl : MonoBehaviour {
     public GameObject Heart;
     public GameObject Energy;
+    public GameObject Ctrl_toturial;
     public Text Score;
 
     GameObject obj_pool;
@@ -22,6 +23,8 @@ public class UICtrl : MonoBehaviour {
     private Vector3 heart_pos = new Vector3(-870, -465, 0);
     private Vector3 energy_pos = new Vector3(-870, -435, 0);
     private int score = 0;
+    private float show_time = 1.5f;
+    private float _time;
 
     public Stack<GameObject> Heart_stack {
         get { return heart_stack; }
@@ -54,7 +57,10 @@ public class UICtrl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        _time += Time.deltaTime;
 
+        if (_time > show_time)
+            Ctrl_toturial.SetActive(false);
 	}
 
     public int addScore (int value) {

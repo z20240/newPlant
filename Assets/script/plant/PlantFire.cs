@@ -26,6 +26,9 @@ public class PlantFire : MonoBehaviour {
     // Update is called once per frame
 
     void Update() {
+        if (Time.timeScale == 0)
+            return;
+
         _timer += Time.deltaTime;
         // if ( _timer > spawnTime) {
 

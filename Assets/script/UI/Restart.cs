@@ -9,6 +9,7 @@ public class Restart : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gameObject.GetComponent<Button>().onClick.AddListener(() => {
+            Time.timeScale = 1f;
             SceneManager.LoadScene("Start");
         });
 	}
