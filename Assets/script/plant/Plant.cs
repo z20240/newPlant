@@ -7,7 +7,7 @@ public class Plant : MonoBehaviour {
     // == setting
     private int base_hp = 5;
     private int hp;
-    private float shield_time = 3f;
+    private float shield_time = 5f; // 防護罩時間
 
 
     private bool shieldOn = false;

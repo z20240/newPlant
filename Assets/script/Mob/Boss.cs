@@ -7,7 +7,7 @@ public class Boss : MonoBehaviour {
     // == setting
     private float[] shooting_time = { 0.2f, 0.5f, 0.3f };
     private float[] shooting_force = { 1f, 1f, 1f };
-    private int[] hp_setting = { 20, 100, 500 };
+    private int[] hp_setting = { 80, 160, 320 };
 
     private int bulletAmount = 12;
 
@@ -177,6 +177,8 @@ public class Boss : MonoBehaviour {
                 pool.Recovery(pool_name, gameObject);
                 game_setting.G_Stage += 1; // 進到下一關
                 game_setting.IsBossTime = false;
+                GameObject go = GameObject.Find("魔王死");
+                go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
 
                 if (game_setting.G_Stage > 3) {
                     game_setting.Is_complete = true;

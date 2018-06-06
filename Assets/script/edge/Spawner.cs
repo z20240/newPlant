@@ -49,6 +49,8 @@ public class Spawner : MonoBehaviour {
         "mob_poison_soft_suger",
     };
 
+    private ArrayList go_boss_audio = new ArrayList();
+
     private string[] boss_list = {"boss1_ketamine", "boss2_amphetamines", "boss3_heroin",};
 
     void Awake() {
@@ -64,6 +66,9 @@ public class Spawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        go_boss_audio.Add(GameObject.Find("魔王出現1"));
+        go_boss_audio.Add(GameObject.Find("魔王出現2"));
+        go_boss_audio.Add(GameObject.Find("魔王出現3"));
 	}
 
 	// Update is called once per frame
@@ -80,6 +85,8 @@ public class Spawner : MonoBehaviour {
             if (game_setting.G_Stage > 3)
                 return;
             pool.ReUse( boss_list[game_setting.G_Stage - 1], transform.position + new Vector3(0, +2.5f, 0), transform.rotation);
+            GameObject go = (GameObject)go_boss_audio[game_setting.G_Stage - 1];
+            go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
             game_setting.IsBossTime = true;
         }
 
