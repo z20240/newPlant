@@ -77,11 +77,11 @@ public class PlantFire : MonoBehaviour {
             gameObjects = GameObject.FindGameObjectsWithTag("Mob");
 
             for(var i = 0 ; i < gameObjects.Length ; i ++) {
-                gameObjects[i].GetComponent<Mob>().OnTriggerEnter2D(gameObject.GetComponent<Collider2D>());
+                gameObjects[i].GetComponent<Mob>().OnTriggerEnter2D(pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation).GetComponent<Collider2D>());
             }
 
             gameObject.GetComponent<Plant>().Extra_skill_count -= 1;
-            GameObject.Find("UICanvas").GetComponent<UICtrl>().delEnergy();
+            GameObject.Find("UICanvas").GetComponent<UICtrl>().delEnergy(gameObject.name);
         }
     }
 

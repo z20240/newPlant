@@ -64,8 +64,8 @@ public class Mob : MonoBehaviour {
 
         GameObject bullet = pool.ReUse(attack_name, gameObject.transform.position, quate);
 
-        if (need_scale_up.Contains(GetName(bullet.name)))
-            bullet.transform.localScale *= 2;
+        // if (need_scale_up.Contains(GetName(bullet.name)))
+        //     bullet.transform.localScale *= 2;
 
         bullet.GetComponent<MobBulletMove>().Dir = dir;
 
@@ -76,15 +76,14 @@ public class Mob : MonoBehaviour {
         string pool_name = GetName(gameObject.name);
         if (collider.tag == "Player" || collider.tag == "PlayerBullet" || collider.tag == "wall") {
             // Debug.Log("collider bullet:" + collider.tag + " " + pool_name);
-            if (collider.tag != "wall") {
+            if (collider.tag != "wall" && collider.tag != "Player") {
                 pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
                 GameObject.Find("UICanvas").GetComponent<UICtrl>().addScore(10);
+
+                string item = RandomItem();
+                if (item != "")
+                    pool.ReUse(item, gameObject.transform.position + new Vector3(UnityEngine.Random.Range(0.6f, -0.6f), 0, 0), gameObject.transform.rotation);
             }
-
-            string item = RandomItem();
-
-            if (item != "")
-                pool.ReUse(item, gameObject.transform.position + new Vector3(UnityEngine.Random.Range(0.6f, -0.6f), 0, 0), gameObject.transform.rotation);
 
             pool.Recovery(pool_name, gameObject);
         }
@@ -97,9 +96,9 @@ public class Mob : MonoBehaviour {
     }
 
     string RandomItem() {
-        float rand = UnityEngine.Random.Range(0, 100);
 
         foreach( Item item in game_setting.Item_list ) {
+            float rand = UnityEngine.Random.Range(0, 100);
             if ( rand <= item.Rate ) {
                 return item.Name;
             }

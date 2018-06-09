@@ -18,7 +18,7 @@ public class PlayerStart : MonoBehaviour {
 
         GetComponent<Button>().onClick.AddListener(() => {
             PlayerPrefs.SetInt("player_num",  gameObject.name == "1P" ? 1 : 2);
-            SceneManager.LoadScene("game");
+            SceneManager.LoadScene("TransferScene");
         });
 
 

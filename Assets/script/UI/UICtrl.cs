@@ -6,7 +6,6 @@ using UnityEngine;
 public class UICtrl : MonoBehaviour {
     public GameObject Heart;
     public GameObject Energy;
-    public GameObject Ctrl_toturial;
     public Text Score;
 
     GameObject obj_pool;
@@ -15,26 +14,31 @@ public class UICtrl : MonoBehaviour {
     GameObject GameSetting;
     private GameSetting game_setting;
 
-    private int totalHeart = 0;
+    private int totalHeart_p1 = 0;
+    private int totalHeart_p2 = 0;
 
-    private Stack<GameObject> heart_stack = new Stack<GameObject>();
-    private Stack<GameObject> energy_stack = new Stack<GameObject>();
+    private Stack<GameObject> heart_stack_p1 = new Stack<GameObject>();
+    private Stack<GameObject> heart_stack_p2 = new Stack<GameObject>();
+    private Stack<GameObject> energy_stack_p1 = new Stack<GameObject>();
+    private Stack<GameObject> energy_stack_p2 = new Stack<GameObject>();
 
-    private Vector3 heart_pos = new Vector3(-870, -465, 0);
-    private Vector3 energy_pos = new Vector3(-870, -435, 0);
+    private Vector3 heart_pos_p1 = new Vector3(-810, -465, 0);
+    private Vector3 heart_pos_p2 = new Vector3(-330, -465, 0);
+    private Vector3 energy_pos_p1 = new Vector3(-810, -435, 0);
+    private Vector3 energy_pos_p2 = new Vector3(-330, -435, 0);
     private int score = 0;
     private float show_time = 1.5f;
     private float _time;
 
-    public Stack<GameObject> Heart_stack {
-        get { return heart_stack; }
-        set { heart_stack = value; }
-    }
+    // public Stack<GameObject> Heart_stack {
+    //     get { return heart_stack; }
+    //     set { heart_stack = value; }
+    // }
 
-    public Stack<GameObject> Energy_stack {
-        get { return energy_stack; }
-        set { energy_stack = value; }
-    }
+    // public Stack<GameObject> Energy_stack {
+    //     get { return energy_stack; }
+    //     set { energy_stack = value; }
+    // }
 
     void Awake() {
         GameSetting = GameObject.Find ("GameSetting");
@@ -42,25 +46,31 @@ public class UICtrl : MonoBehaviour {
 
         obj_pool = GameObject.Find("ObjectPool");
         pool = obj_pool.GetComponent<ObjectPool>(); // 物件池
+
+        GameObject two_player_text = GameObject.Find("2P");
+        if (PlayerPrefs.GetInt("player_num") < 2) {
+            two_player_text.SetActive(false);
+        }
     }
 	// Use this for initialization
 	void Start () {
-        totalHeart += GameObject.Find("plant_1").GetComponent<Plant>().Hp;
+        totalHeart_p1 += GameObject.Find("plant_1").GetComponent<Plant>().Hp;
         if (PlayerPrefs.GetInt("player_num") != 1) {
-            totalHeart += GameObject.Find("plant_2").GetComponent<Plant>().Hp;
+            totalHeart_p2 += GameObject.Find("plant_2").GetComponent<Plant>().Hp;
         }
 
-        for (int i = 0 ; i < totalHeart ; i++) {
-            addHeart();
+        for (int i = 0 ; i < totalHeart_p1 ; i++) {
+            addHeart("plant_1");
         }
+        for (int i = 0 ; i < totalHeart_p2 ; i++) {
+            addHeart("plant_2");
+        }
+
 	}
 
 	// Update is called once per frame
 	void Update () {
         _time += Time.deltaTime;
-
-        if (_time > show_time)
-            Ctrl_toturial.SetActive(false);
 	}
 
     public int addScore (int value) {
@@ -69,35 +79,66 @@ public class UICtrl : MonoBehaviour {
         return score;
     }
 
-    public void addHeart () {
+    public void addHeart (string plant_name) {
         GameObject heart = Instantiate( Heart ) as GameObject;
         heart.transform.SetParent(GameObject.Find("HP").transform);
-        if (heart_stack.ToArray().Length == 0) {
-            heart.transform.localPosition = heart_pos;
-        } else {
-            heart.transform.localPosition = heart_stack.Peek().transform.localPosition + new Vector3(60, 0, 0);
+
+        if (plant_name == "plant_1") {
+            if (heart_stack_p1.ToArray().Length == 0) {
+                    heart.transform.localPosition = heart_pos_p1;
+            } else {
+                heart.transform.localPosition = heart_stack_p1.Peek().transform.localPosition + new Vector3(60, 0, 0);
+            }
+            heart_stack_p1.Push(heart);
+        } else if (plant_name == "plant_2") {
+            if (heart_stack_p2.ToArray().Length == 0) {
+                    heart.transform.localPosition = heart_pos_p2;
+            } else {
+                heart.transform.localPosition = heart_stack_p2.Peek().transform.localPosition + new Vector3(60, 0, 0);
+            }
+            heart_stack_p2.Push(heart);
         }
-        heart_stack.Push(heart);
+
     }
 
-    public void delHeart() {
-        if (heart_stack.ToArray().Length > 0)
-            Destroy(heart_stack.Pop());
+    public void delHeart(string plant_name) {
+        if (plant_name == "plant_1") {
+            if (heart_stack_p1.ToArray().Length > 0)
+                Destroy(heart_stack_p1.Pop());
+        } else if (plant_name == "plant_2") {
+            if (heart_stack_p2.ToArray().Length > 0)
+                Destroy(heart_stack_p2.Pop());
+        }
     }
 
-    public void addEnergy () {
+    public void addEnergy (string plant_name) {
         GameObject energy = Instantiate( Energy ) as GameObject;
         energy.transform.SetParent(GameObject.Find("SP").transform);
-        if (energy_stack.ToArray().Length == 0) {
-            energy.transform.localPosition = heart_pos;
-        } else {
-            energy.transform.localPosition = energy_stack.Peek().transform.localPosition + new Vector3(60, 0, 0);
+
+        if (plant_name == "plant_1") {
+            if (energy_stack_p1.ToArray().Length == 0) {
+                energy.transform.localPosition = heart_pos_p1;
+            } else {
+                energy.transform.localPosition = energy_stack_p1.Peek().transform.localPosition + new Vector3(60, 0, 0);
+            }
+            energy_stack_p1.Push(energy);
+        } else if (plant_name == "plant_2") {
+            if (energy_stack_p2.ToArray().Length == 0) {
+                energy.transform.localPosition = heart_pos_p2;
+            } else {
+                energy.transform.localPosition = energy_stack_p2.Peek().transform.localPosition + new Vector3(60, 0, 0);
+            }
+            energy_stack_p2.Push(energy);
         }
-        energy_stack.Push(energy);
     }
 
-    public void delEnergy() {
-        if (energy_stack.ToArray().Length > 0)
-            Destroy(energy_stack.Pop());
+    public void delEnergy(string plant_name) {
+        if (plant_name == "plant_1") {
+            if (energy_stack_p1.ToArray().Length > 0)
+                Destroy(energy_stack_p1.Pop());
+        } else if (plant_name == "plant_2") {
+            if (energy_stack_p2.ToArray().Length > 0)
+                Destroy(energy_stack_p2.Pop());
+        }
     }
 }

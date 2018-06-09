@@ -82,7 +82,7 @@ public class Plant : MonoBehaviour {
                 case "item_extra_skill":
                     if (extra_skill_count <= 4) {
                         extra_skill_count += 1;
-                        GameObject.Find("UICanvas").GetComponent<UICtrl>().addEnergy();
+                        GameObject.Find("UICanvas").GetComponent<UICtrl>().addEnergy(gameObject.name);
                         go = GameObject.Find("炸彈包");
                         go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
                     }
@@ -91,7 +91,7 @@ public class Plant : MonoBehaviour {
                 case "item_heal_pack":
                     if (hp < 5) {
                         hp += 1;
-                        GameObject.Find("UICanvas").GetComponent<UICtrl>().addHeart();
+                        GameObject.Find("UICanvas").GetComponent<UICtrl>().addHeart(gameObject.name);
                         go = GameObject.Find("救護包");
                         go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
                     }
@@ -108,8 +108,8 @@ public class Plant : MonoBehaviour {
 
             if ( shieldOn ) return;
 
-            hp -= 1;
-            GameObject.Find("UICanvas").GetComponent<UICtrl>().delHeart();
+            // hp -= 1;
+            GameObject.Find("UICanvas").GetComponent<UICtrl>().delHeart(gameObject.name);
 
             if (hp <= 0) {
                 pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);

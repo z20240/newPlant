@@ -108,7 +108,7 @@ public class Spawner : MonoBehaviour {
                     if (_mob_left_count % left_mob_per_count == 0)
                         _next_spawntime_left = _timer + spawnTime_left;
 
-                    pool.ReUse( mob_name[Random.Range(5, 7)], transform.position + new Vector3(1f, Random.Range(-4.0f, 4.0f), 0), transform.rotation);
+                    pool.ReUse( mob_name[Random.Range(5, 7)], transform.position + new Vector3(1f, Random.Range(0f, 4.0f), 0), transform.rotation);
                 break;
                 case "spawner_right":
                     if ( _timer <= _next_spawntime_right && (_mob_right_count % right_mob_per_count == 0))
@@ -117,7 +117,7 @@ public class Spawner : MonoBehaviour {
                     if (_mob_right_count % right_mob_per_count == 0)
                         _next_spawntime_right = _timer + spawnTime_right;
 
-                    pool.ReUse( mob_name[Random.Range(7, 9)], transform.position + new Vector3(-1f, Random.Range(-4.0f, 4.0f), 0), transform.rotation);
+                    pool.ReUse( mob_name[Random.Range(7, 9)], transform.position + new Vector3(-1f, Random.Range(0.5f, 4.0f), 0), transform.rotation);
                 break;
                 case "spawner_down": break;
             }

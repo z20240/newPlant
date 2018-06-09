@@ -7,7 +7,7 @@ public class Boss : MonoBehaviour {
     // == setting
     private float[] shooting_time = { 0.2f, 0.5f, 0.3f };
     private float[] shooting_force = { 1f, 1f, 1f };
-    private int[] hp_setting = { 80, 160, 320 };
+    private int[] hp_setting = { 200, 250, 300 };
 
     private int bulletAmount = 12;
 
@@ -21,6 +21,7 @@ public class Boss : MonoBehaviour {
     private GameObject player;
     private float _timer, _next_time;
     private float angle = 0;
+    private bool is_add_stage = false;
 
     private bool can_start_attack = false;
     Vector3 dir;
@@ -175,7 +176,10 @@ public class Boss : MonoBehaviour {
                 GameObject explosion = pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
                 explosion.transform.localScale *= 4;
                 pool.Recovery(pool_name, gameObject);
-                game_setting.G_Stage += 1; // 進到下一關
+                if (!is_add_stage) {
+                    is_add_stage = true;
+                    game_setting.G_Stage += 1; // 進到下一關
+                }
                 game_setting.IsBossTime = false;
                 GameObject go = GameObject.Find("魔王死");
                 go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);

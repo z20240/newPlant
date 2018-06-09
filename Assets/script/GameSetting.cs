@@ -6,9 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameSetting : MonoBehaviour {
 
 	// Use this for initialization
+    [Header("關卡設置")]
     public int g_Stage = 1;
+    [Header("第一關背景音樂")]
+    public AudioSource stage_audio_1;
+    [Header("第二關背景音樂")]
+    public AudioSource stage_audio_2;
+    [Header("第三關背景音樂")]
+    public AudioSource stage_audio_3;
+
     private int maxStage = 3;
-    string[] player_name = {"plant_1", "plant_2"};
     private float[] boss_time = {60f, 60f, 60f};
 
     private List<Item> item_list = new List<Item>();
@@ -19,8 +26,13 @@ public class GameSetting : MonoBehaviour {
     private bool[] playerAlive = {true, true};
     private bool is_complete = false;
     private float waiting_scence_time = 0;
+    private List<AudioSource> stage_audio;
+    private AudioSource current_audio;
 
-    GameObject ui_btnSet;
+
+    string[] player_name = {"plant_1", "plant_2"};
+
+    public GameObject UIPause; // Inspector 傳入
 
     public int G_Stage {
         get { return g_Stage; }
@@ -69,21 +81,33 @@ public class GameSetting : MonoBehaviour {
     void Start () {
         Screen.SetResolution(1920, 1080, true);
         now_boss_time = boss_time[0];
-        item_list.Add(new Item("item_enhancement", 10f));
-        item_list.Add(new Item("item_extra_skill", 40f));
-        item_list.Add(new Item("item_heal_pack", 50f));
-        item_list.Add(new Item("item_rewards", 60f)); // 這其實是防護罩
+        item_list.Add(new Item("item_enhancement", 5f));
+        item_list.Add(new Item("item_extra_skill", 5f));
+        item_list.Add(new Item("item_heal_pack", 10f));
+        item_list.Add(new Item("item_rewards", 20f)); // 這其實是防護罩
 
+        stage_audio = new List<AudioSource>(){stage_audio_1, stage_audio_2, stage_audio_3};
 
         if (PlayerPrefs.GetInt("player_num") == 1)
             GameObject.Find("plant_2").SetActive(false);
 
-        ui_btnSet = GameObject.Find("UICanvas").transform.GetChild(0).gameObject;
-	}
+        stage_audio[0].Play();
+        stage_audio[0].playOnAwake = true;
+        stage_audio[0].loop = true;
+    }
 
 	// Update is called once per frame
 	void Update () {
         _timer += Time.deltaTime; //時間增加
+
+        if ( g_Stage != 0 && !stage_audio[g_Stage - 1].playOnAwake && g_Stage <= 3) {
+            if (g_Stage > 1)
+                stage_audio[g_Stage - 2].Stop();
+            Debug.Log("current_audio:" + g_Stage);
+            stage_audio[g_Stage - 1].Play();
+            stage_audio[g_Stage - 1].playOnAwake = true;
+            stage_audio[g_Stage - 1].loop = true;
+        }
 
         if (Input.GetKey(KeyCode.Escape)) {
             Pause();
@@ -100,12 +124,12 @@ public class GameSetting : MonoBehaviour {
     public void Pause() {
         //時間暫停
         Time.timeScale = 0f;
-        ui_btnSet.SetActive(true);
+        UIPause.SetActive(true);
     }
 
     public void Continue() {
         //時間以正常速度運行
         Time.timeScale = 1f;
-        ui_btnSet.SetActive(false);
+        UIPause.SetActive(false);
     }
 }
