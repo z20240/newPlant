@@ -33,6 +33,7 @@ public class GameSetting : MonoBehaviour {
     string[] player_name = {"plant_1", "plant_2"};
 
     public GameObject UIPause; // Inspector 傳入
+    public bool PlayerCritical = false; // 玩家的大招
 
     public int G_Stage {
         get { return g_Stage; }
@@ -100,7 +101,9 @@ public class GameSetting : MonoBehaviour {
 	void Update () {
         _timer += Time.deltaTime; //時間增加
 
-        if ( g_Stage != 0 && !stage_audio[g_Stage - 1].playOnAwake && g_Stage <= 3) {
+        if (g_Stage >= 3) Debug.Log("g_Stage:" + g_Stage);
+
+        if ( g_Stage != 0 && g_Stage <= 3 && !stage_audio[g_Stage - 1].playOnAwake ) {
             if (g_Stage > 1)
                 stage_audio[g_Stage - 2].Stop();
             Debug.Log("current_audio:" + g_Stage);
@@ -114,10 +117,11 @@ public class GameSetting : MonoBehaviour {
         }
 
         if (Is_complete) {
+            // 成功
             if (waiting_scence_time <= 0)
                 waiting_scence_time = _timer + 1f;
             else if (_timer > waiting_scence_time)
-                SceneManager.LoadScene("End");
+                SceneManager.LoadScene("EndSuccess");
         }
 	}
 

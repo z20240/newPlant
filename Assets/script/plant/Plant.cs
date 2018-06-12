@@ -108,7 +108,7 @@ public class Plant : MonoBehaviour {
 
             if ( shieldOn ) return;
 
-            // hp -= 1;
+            hp -= 1;
             GameObject.Find("UICanvas").GetComponent<UICtrl>().delHeart(gameObject.name);
 
             if (hp <= 0) {
@@ -118,7 +118,8 @@ public class Plant : MonoBehaviour {
                 PlayerPrefs.SetInt("player_num", PlayerPrefs.GetInt("player_num") -1);
 
                 if (PlayerPrefs.GetInt("player_num") <= 0) {
-                    SceneManager.LoadScene("End");
+                    // 失敗
+                    SceneManager.LoadScene("EndFailure");
                 }
             }
         }

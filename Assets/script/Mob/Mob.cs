@@ -75,14 +75,16 @@ public class Mob : MonoBehaviour {
     public void OnTriggerEnter2D(Collider2D collider) {
         string pool_name = GetName(gameObject.name);
         if (collider.tag == "Player" || collider.tag == "PlayerBullet" || collider.tag == "wall") {
-            // Debug.Log("collider bullet:" + collider.tag + " " + pool_name);
-            if (collider.tag != "wall" && collider.tag != "Player") {
-                pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
+
+            if (collider.tag == "PlayerBullet") {
                 GameObject.Find("UICanvas").GetComponent<UICtrl>().addScore(10);
+                pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
 
                 string item = RandomItem();
                 if (item != "")
                     pool.ReUse(item, gameObject.transform.position + new Vector3(UnityEngine.Random.Range(0.6f, -0.6f), 0, 0), gameObject.transform.rotation);
+            } else if (collider.tag == "Player") {
+                pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
             }
 
             pool.Recovery(pool_name, gameObject);

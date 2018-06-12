@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour {
     // == setting
-    private float[] shooting_time = { 0.2f, 0.5f, 0.3f };
+    private float[] shooting_time = { 1.2f, 0.5f, 0.3f };
     private float[] shooting_force = { 1f, 1f, 1f };
     private int[] hp_setting = { 200, 250, 300 };
 
@@ -73,9 +73,10 @@ public class Boss : MonoBehaviour {
 
         _next_time = _timer + shooting_time[game_setting.G_Stage - 1];
 
-        switch (BoosPoolName ()) {
+        switch (BoosPoolName()) {
             case "boss1_ketamine":
                 player = GameObject.Find(game_setting.Player_name[Random.Range(0, 2)]);
+
                 if (player == null) {
                     dir = Vector3.down;
                     quate.eulerAngles = new Vector3 (0, 0, 0); // 表示設置x軸方向旋轉了 tiltAngle 度
@@ -84,6 +85,9 @@ public class Boss : MonoBehaviour {
                     float tiltAngle = Vector3.Angle (Vector3.right, dir);
                     quate.eulerAngles = new Vector3 (0, 0, tiltAngle); // 表示設置x軸方向旋轉了 tiltAngle 度
                 }
+
+                dir = Vector3.down;
+                quate.eulerAngles = new Vector3 (0, 0, 0); // 表示設置x軸方向旋轉了 tiltAngle 度
 
                 bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position + new Vector3 (1f, 0.2f, 0), quate);
                 bulletClone.GetComponent<MobBulletMove> ().Dir = dir;
@@ -101,7 +105,7 @@ public class Boss : MonoBehaviour {
                 center = gameObject.transform.position;
 
                 // Debug.Log("Bound" + bounds + " normal" + center.normalized);
-                for (int i = 0; i < bulletAmount; i++) {
+                for ( int i = 0; i < bulletAmount; i++ ) {
                     bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position, gameObject.transform.rotation);
                     hudu = (angle / 180) * Mathf.PI;
                     xx = center.x + (r + bounds.extents.x) * Mathf.Cos (hudu);
@@ -137,14 +141,6 @@ public class Boss : MonoBehaviour {
                 bulletClone.GetComponent<MobBulletMove> ().Dir = dir;
                 bulletClone.GetComponent<MobBulletMove> ().Force = shooting_force[game_setting.G_Stage -1];
 
-                bulletClone = pool.ReUse (BoosPoolName () + "_attack", gameObject.transform.position, gameObject.transform.rotation);
-                bulletClone.transform.position = new Vector3 (yy, xx, 0);
-                quate.eulerAngles = new Vector3 (0, 0, -Vector3.Angle (Vector3.down, dir)); // 表示設置x軸方向旋轉了 tiltAngle 度
-                bulletClone.transform.rotation = quate;
-                dir = gameObject.transform.position - bulletClone.transform.position;
-                bulletClone.GetComponent<MobBulletMove> ().Dir = dir;
-                bulletClone.GetComponent<MobBulletMove> ().Force = shooting_force[game_setting.G_Stage -1];
-
                 angle += changeAngle;
 
                 // 追蹤彈
@@ -164,33 +160,20 @@ public class Boss : MonoBehaviour {
 
                 break;
         }
+
+        if (game_setting.PlayerCritical) {
+            game_setting.PlayerCritical = false;
+            hp = Mathf.Clamp(hp - 40, 0, hp);
+            checkIfDead();
+        }
     }
 
     void OnTriggerEnter2D (Collider2D collider) {
-        string pool_name = BoosPoolName ();
+
         if (collider.tag == "PlayerBullet" && Can_start_attack) {
             // pool.Recovery(pool_name, gameObject);
             hp--;
-
-            if ( hp <= 0 ) {
-                GameObject explosion = pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
-                explosion.transform.localScale *= 4;
-                pool.Recovery(pool_name, gameObject);
-                if (!is_add_stage) {
-                    is_add_stage = true;
-                    game_setting.G_Stage += 1; // 進到下一關
-                }
-                game_setting.IsBossTime = false;
-                GameObject go = GameObject.Find("魔王死");
-                go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
-
-                if (game_setting.G_Stage > 3) {
-                    game_setting.Is_complete = true;
-                } else {
-                    game_setting.Now_boss_time = game_setting.Timer + game_setting.Boss_time[game_setting.G_Stage -1];
-                }
-            }
-
+            checkIfDead();
         }
     }
 
@@ -202,5 +185,31 @@ public class Boss : MonoBehaviour {
 
     public Vector3 NormalizedCenter (Vector3 location, Bounds bound) {
         return new Vector3 (location.x + bound.extents.x, location.y - bound.extents.y, location.z);
+    }
+
+    public bool checkIfDead() {
+        string pool_name = BoosPoolName ();
+        if ( hp <= 0 ) {
+            GameObject explosion = pool.ReUse("explosion", gameObject.transform.position, gameObject.transform.rotation);
+            explosion.transform.localScale *= 4;
+            pool.Recovery(pool_name, gameObject);
+            if (!is_add_stage && game_setting.IsBossTime) {
+                is_add_stage = true;
+                game_setting.G_Stage += 1; // 進到下一關
+            }
+            game_setting.IsBossTime = false;
+            GameObject go = GameObject.Find("魔王死");
+            go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
+
+            if (game_setting.G_Stage > 3) {
+                game_setting.Is_complete = true;
+            } else {
+                game_setting.Now_boss_time = game_setting.Timer + game_setting.Boss_time[game_setting.G_Stage -1];
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

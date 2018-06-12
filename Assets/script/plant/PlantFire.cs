@@ -11,16 +11,17 @@ public class PlantFire : MonoBehaviour {
     private ObjectPool pool;
     private float _timer;
     private string[] bullet_name = {"player_bullet_1", "player_bullet_2", "player_bullet_3"};
+    private GameSetting game_setting;
 
     void Awake() {
         obj_pool = GameObject.Find("ObjectPool");
         pool = obj_pool.GetComponent<ObjectPool>(); // 物件池
+
+        game_setting = GameObject.Find ("GameSetting").GetComponent<GameSetting> ();
     }
 
     void Start () {
         // bullet_type = 2;
-
-        pool = obj_pool.GetComponent<ObjectPool>(); // 物件池
     }
 
     // Update is called once per frame
@@ -67,17 +68,21 @@ public class PlantFire : MonoBehaviour {
 
         // }
 
-        if ( ( (Input.GetKeyUp(KeyCode.RightShift) || Input.GetKeyUp(KeyCode.Joystick1Button3)) && gameObject.name == "plant_1")
-            || ( (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.Joystick2Button3) ) && gameObject.name == "plant_2")
+        if ( (gameObject.name == "plant_1" && (Input.GetKeyUp(KeyCode.RightShift) || Input.GetKeyUp(KeyCode.Joystick1Button3)))
+            || ( gameObject.name == "plant_2" && (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.Joystick2Button3)) )
         ) {
             if ( gameObject.GetComponent<Plant>().Extra_skill_count <= 0 )
                 return;
 
-            GameObject[] gameObjects;
-            gameObjects = GameObject.FindGameObjectsWithTag("Mob");
+            if (game_setting.IsBossTime) {
+                game_setting.PlayerCritical = true;
+            } else {
+                GameObject[] gameObjects;
+                gameObjects = GameObject.FindGameObjectsWithTag("Mob");
 
-            for(var i = 0 ; i < gameObjects.Length ; i ++) {
-                gameObjects[i].GetComponent<Mob>().OnTriggerEnter2D(pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation).GetComponent<Collider2D>());
+                for(var i = 0 ; i < gameObjects.Length ; i ++) {
+                    gameObjects[i].GetComponent<Mob>().OnTriggerEnter2D(pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation).GetComponent<Collider2D>());
+                }
             }
 
             gameObject.GetComponent<Plant>().Extra_skill_count -= 1;

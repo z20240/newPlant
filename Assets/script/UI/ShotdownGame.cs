@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ShotdownGame : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
         gameObject.GetComponent<Button>().onClick.AddListener(() => {
-            Application.Quit();
+            SceneManager.LoadScene("FinalScene");
         });
 	}
 
