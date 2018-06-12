@@ -8,14 +8,16 @@ public class Continue : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gameObject.GetComponent<Button>().onClick.AddListener(() => {
-            GameObject.Find("GameSetting").GetComponent<GameSetting>().Continue();
+			GameObject gameSetting = GameObject.Find("GameSetting");
+			if (gameSetting) gameSetting.GetComponent<GameSetting>().Continue();
         });
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if ( Input.GetButtonDown ("Fire1") ) { // 繼續
-            GameObject.Find("GameSetting").GetComponent<GameSetting>().Continue();
+		if ( Input.GetButtonDown("Continue") ) { // 繼續
+            GameObject gameSetting = GameObject.Find("GameSetting");
+			if (gameSetting) gameSetting.GetComponent<GameSetting>().Continue();
         } 
 	}
 }
