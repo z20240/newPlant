@@ -14,6 +14,8 @@ public class Continue : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		if ( Input.GetButtonDown ("Fire1") ) { // 繼續
+            GameObject.Find("GameSetting").GetComponent<GameSetting>().Continue();
+        } 
 	}
 }

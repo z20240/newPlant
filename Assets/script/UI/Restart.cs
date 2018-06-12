@@ -16,6 +16,9 @@ public class Restart : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		if ( Input.GetButtonDown ("Start") ) { // 重新開始
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("Start");
+        }
 	}
 }

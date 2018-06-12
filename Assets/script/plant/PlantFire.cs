@@ -33,9 +33,12 @@ public class PlantFire : MonoBehaviour {
         _timer += Time.deltaTime;
         // if ( _timer > spawnTime) {
 
-            if ( ( (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.Joystick1Button1)) && gameObject.name == "plant_1")
-                || ( (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.Joystick2Button1) ) && gameObject.name == "plant_2")
+            if ( ( (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonDown ("Fire1_player1")) && gameObject.name == "plant_1")
+            || ( (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetButtonDown ("Fire1_player2")) && gameObject.name == "plant_2")
             ) {
+                Debug.Log("name:" + gameObject.name + " Fire1_player1:" + Input.GetButtonDown ("Fire1_player1"));
+                Debug.Log("name:" + gameObject.name + " Fire1_player2:" + Input.GetButtonDown ("Fire1_player2"));
+
                 if (_timer < spawnTime)
                     return;
                 switch( bullet_name[bullet_type] ) {
@@ -68,8 +71,8 @@ public class PlantFire : MonoBehaviour {
 
         // }
 
-        if ( (gameObject.name == "plant_1" && (Input.GetKeyUp(KeyCode.RightShift) || Input.GetKeyUp(KeyCode.Joystick1Button3)))
-            || ( gameObject.name == "plant_2" && (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.Joystick2Button3)) )
+        if ( (gameObject.name == "plant_1" && (Input.GetKeyUp(KeyCode.RightShift) || Input.GetButtonDown ("Fire2_player1")))
+            || ( gameObject.name == "plant_2" && (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetButtonDown ("Fire2_player2")) )
         ) {
             if ( gameObject.GetComponent<Plant>().Extra_skill_count <= 0 )
                 return;

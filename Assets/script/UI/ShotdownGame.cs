@@ -15,6 +15,8 @@ public class ShotdownGame : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-
+		if ( Input.GetButtonDown ("Fire3") ) { // 離開遊戲
+            SceneManager.LoadScene("FinalScene");
+        }
 	}
 }

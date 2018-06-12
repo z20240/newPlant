@@ -112,12 +112,12 @@ public class GameSetting : MonoBehaviour {
             stage_audio[g_Stage - 1].loop = true;
         }
 
-        if (Input.GetKey(KeyCode.Escape)) {
+        if (Input.GetKey(KeyCode.Escape) || Input.GetButtonDown ("Start")) {
             Pause();
         }
 
         if (Is_complete) {
-            // 成功
+            // 成功破關
             if (waiting_scence_time <= 0)
                 waiting_scence_time = _timer + 1f;
             else if (_timer > waiting_scence_time)
