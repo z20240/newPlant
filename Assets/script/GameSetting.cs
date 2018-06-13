@@ -112,9 +112,12 @@ public class GameSetting : MonoBehaviour {
             stage_audio[g_Stage - 1].loop = true;
         }
 
-        if (Input.GetKey(KeyCode.Escape) || Input.GetButtonDown ("Start")) {
+        if (Input.GetKey(KeyCode.Return) || Input.GetButtonDown ("Start")) {
             Pause();
         }
+
+        if (Input.GetKey(KeyCode.Escape))
+            ShotDownGame();
 
         if (Is_complete) {
             // 成功破關
@@ -135,5 +138,10 @@ public class GameSetting : MonoBehaviour {
         //時間以正常速度運行
         Time.timeScale = 1f;
         UIPause.SetActive(false);
+    }
+
+    public void ShotDownGame() {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("FinalScene");
     }
 }
