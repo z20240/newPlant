@@ -95,6 +95,7 @@ public class GameSetting : MonoBehaviour {
         stage_audio[0].Play();
         stage_audio[0].playOnAwake = true;
         stage_audio[0].loop = true;
+        stage_audio[0].volume = 1;
     }
 
 	// Update is called once per frame
@@ -110,6 +111,7 @@ public class GameSetting : MonoBehaviour {
             stage_audio[g_Stage - 1].Play();
             stage_audio[g_Stage - 1].playOnAwake = true;
             stage_audio[g_Stage - 1].loop = true;
+            stage_audio[g_Stage - 1].volume = 1;
         }
 
         if (Input.GetKey(KeyCode.Return) || Input.GetButtonDown ("Start")) {

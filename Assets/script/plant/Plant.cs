@@ -77,6 +77,7 @@ public class Plant : MonoBehaviour {
                         plant_fire.bullet_type += 1;
                         go = GameObject.Find("換攻擊");
                         go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
+                        go.GetComponent<AudioSource>().volume = 0.2f;
                     }
                 break;
                 case "item_extra_skill":
@@ -85,6 +86,7 @@ public class Plant : MonoBehaviour {
                         GameObject.Find("UICanvas").GetComponent<UICtrl>().addEnergy(gameObject.name);
                         go = GameObject.Find("炸彈包");
                         go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
+                        go.GetComponent<AudioSource>().volume = 0.2f;
                     }
 
                 break;
@@ -94,6 +96,7 @@ public class Plant : MonoBehaviour {
                         GameObject.Find("UICanvas").GetComponent<UICtrl>().addHeart(gameObject.name);
                         go = GameObject.Find("救護包");
                         go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
+                        go.GetComponent<AudioSource>().volume = 0.2f;
                     }
                 break;
                 case "item_rewards":
@@ -102,6 +105,7 @@ public class Plant : MonoBehaviour {
                     gameObject.transform.GetChild(0).gameObject.SetActive(true);
                     go = GameObject.Find("勳章");
                     go.GetComponent<AudioSource>().PlayOneShot(go.GetComponent<AudioSource>().clip);
+                    go.GetComponent<AudioSource>().volume = 0.2f;
                 break;
             }
         } else if (collider.tag == "MobBullet" || collider.tag == "Mob" || collider.tag == "Boss") {

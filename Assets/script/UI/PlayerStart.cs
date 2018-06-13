@@ -18,6 +18,7 @@ public class PlayerStart : MonoBehaviour {
 
         GetComponent<Button>().onClick.AddListener(() => {
             PlayerPrefs.SetInt("player_num",  gameObject.name == "1P" ? 1 : 2);
+            PlayerPrefs.SetInt("players",  gameObject.name == "1P" ? 1 : 2);
             SceneManager.LoadScene("TransferScene");
         });
 
@@ -30,6 +31,12 @@ public class PlayerStart : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        // 離開遊戲
+        if (Input.GetKey(KeyCode.Escape) || Input.GetButtonDown ("Exit")) {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("FinalScene");
+        }
+
         if (is_hover) {
             _time += Time.deltaTime;
 

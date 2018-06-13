@@ -23,6 +23,12 @@ public class UIAction : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        // 離開遊戲
+        if (Input.GetKey(KeyCode.Escape) || Input.GetButtonDown("Exit")) {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("FinalScene");
+        }
+
         DOTween.To(() => {
                 // Debug.Log("[pre] cg.alpha:" + cg.alpha);
                 return cg.alpha;
@@ -34,14 +40,17 @@ public class UIAction : MonoBehaviour {
 
         if ( Input.GetAxis("Horizontal_player1") < 0 ) {
             PlayerPrefs.SetInt("player_num", 1);
+            PlayerPrefs.SetInt("players",  1);
             player1.transform.GetChild(1).gameObject.SetActive(true);
             player2.transform.GetChild(1).gameObject.SetActive(false);
         } else if ( Input.GetAxis("Horizontal_player1") > 0 ) {
             PlayerPrefs.SetInt("player_num", 2);
+            PlayerPrefs.SetInt("players",  2);
             player1.transform.GetChild(1).gameObject.SetActive(false);
             player2.transform.GetChild(1).gameObject.SetActive(true);
         }
 
+        // 搖桿 開始遊戲
         if ( (PlayerPrefs.GetInt("player_num") == 1 || PlayerPrefs.GetInt("player_num") == 2) && Input.GetButtonDown ("Start") ) {
             SceneManager.LoadScene("TransferScene");
         }
