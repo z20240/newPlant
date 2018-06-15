@@ -273,6 +273,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f584343a2953346cabf8c0bcce873f9f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &72460427 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1287928059123816, guid: f584343a2953346cabf8c0bcce873f9f,
+    type: 2}
+  m_PrefabInternal: {fileID: 72460426}
 --- !u!1001 &133957362
 Prefab:
   m_ObjectHideFlags: 0
@@ -923,6 +928,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c6ac9a16d229746aa86a3cd69d9553cc, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &387416718 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1882872596267336, guid: c6ac9a16d229746aa86a3cd69d9553cc,
+    type: 2}
+  m_PrefabInternal: {fileID: 387416717}
 --- !u!1 &420191659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1296,7 +1306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -207.23444, y: 1}
+  m_AnchoredPosition: {x: -207.23444, y: -296}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &733822868
@@ -1533,7 +1543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.4711914, y: 1}
+  m_AnchoredPosition: {x: 7.4711914, y: -296}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &934869863
@@ -2767,6 +2777,8 @@ MonoBehaviour:
   stage_audio_1: {fileID: 2140134286}
   stage_audio_2: {fileID: 1605860950}
   stage_audio_3: {fileID: 658821799}
+  plant_1: {fileID: 387416718}
+  plant_2: {fileID: 72460427}
   UIPause: {fileID: 2026634389}
   PlayerCritical: 0
 --- !u!4 &1796204360
@@ -3168,7 +3180,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 208.62769, y: 1}
+  m_AnchoredPosition: {x: 208.62769, y: -296}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2054708346

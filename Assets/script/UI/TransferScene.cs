@@ -16,6 +16,7 @@ public class TransferScene : MonoBehaviour {
 		_time += Time.deltaTime;
 
         if (_time >= 1.5f)
-            SceneManager.LoadScene("game");
+            SceneManager.LoadScene("Start");
+            // SceneManager.LoadScene("game");
 	}
 }

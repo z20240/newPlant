@@ -14,6 +14,10 @@ public class GameSetting : MonoBehaviour {
     public AudioSource stage_audio_2;
     [Header("第三關背景音樂")]
     public AudioSource stage_audio_3;
+    [Header("第一台飛機")]
+    public GameObject plant_1;
+    [Header("第二台飛機")]
+    public GameObject plant_2;
 
     private int maxStage = 3;
     private float[] boss_time = {60f, 60f, 60f};
@@ -145,5 +149,12 @@ public class GameSetting : MonoBehaviour {
     public void ShotDownGame() {
         Time.timeScale = 1f;
         SceneManager.LoadScene("FinalScene");
+    }
+
+    public bool IsPlant1Active() {
+        return plant_1.activeSelf;
+    }
+    public bool IsPlant2Active() {
+        return plant_2.activeSelf;
     }
 }

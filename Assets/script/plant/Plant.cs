@@ -121,7 +121,10 @@ public class Plant : MonoBehaviour {
 
                 PlayerPrefs.SetInt("player_num", PlayerPrefs.GetInt("player_num") -1);
 
-                if (PlayerPrefs.GetInt("player_num") <= 0) {
+                if (
+                    // PlayerPrefs.GetInt("player_num") <= 0 &&
+                    (!game_setting.IsPlant1Active() && !game_setting.IsPlant2Active())
+                ) {
                     // 失敗
                     SceneManager.LoadScene("EndFailure");
                 }

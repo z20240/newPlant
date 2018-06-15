@@ -71,6 +71,7 @@ public class PlantFire : MonoBehaviour {
 
         // }
 
+        // 使用大絕招
         if ( (gameObject.name == "plant_1" && (Input.GetKeyUp(KeyCode.RightShift) || Input.GetButtonDown ("Fire2_player1")))
             || ( gameObject.name == "plant_2" && (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetButtonDown ("Fire2_player2")) )
         ) {
@@ -83,9 +84,11 @@ public class PlantFire : MonoBehaviour {
                 GameObject[] gameObjects;
                 gameObjects = GameObject.FindGameObjectsWithTag("Mob");
 
+                GameObject bullet = pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation );
                 for(var i = 0 ; i < gameObjects.Length ; i ++) {
-                    gameObjects[i].GetComponent<Mob>().OnTriggerEnter2D(pool.ReUse( bullet_name[bullet_type], transform.position + new Vector3(0, 1f, 0), transform.rotation).GetComponent<Collider2D>());
+                    gameObjects[i].GetComponent<Mob>().OnTriggerEnter2D(bullet.GetComponent<Collider2D>());
                 }
+                pool.Recovery(bullet_name[bullet_type], bullet);
             }
 
             gameObject.GetComponent<Plant>().Extra_skill_count -= 1;
